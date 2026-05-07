@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yogaaalayaa — Calm Body. Loud Mind.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root {
+  --parchment:  #F2EBD9;
+  --linen:      #EDE4D0;
+  --sand:       #D9CBAF;
+  --bark:       #8B6F4E;
+  --moss:       #5C6B47;
+  --deep-moss:  #3D4A2D;
+  --clay:       #B5673B;
+  --mushroom:   #C4A882;
+  --charcoal:   #2C2416;
+  --warm-grey:  #7A6E60;
+  --text-dark:  #1E1810;
+  --text-mid:   #6B5F4E;
+  --white-wash: #FAF6EF;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--parchment);
+  color:var(--text-dark);
+  font-family:'Jost',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+}
+
+/* GRAIN */
+body::before {
+  content:''; position:fixed; inset:0; z-index:200; pointer-events:none;
+  opacity:0.022;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px;
+}
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background:rgba(242,235,217,0.94);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(139,111,78,0.14);
+}
+.nav-top {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:1rem 3.5rem;
+}
+.nav-logo {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.55rem; font-weight:600; color:var(--charcoal);
+}
+.nav-logo span { color:var(--clay); }
+.nav-book {
+  font-family:'Jost',sans-serif; font-size:0.68rem; letter-spacing:0.2em;
+  text-transform:uppercase; font-weight:500; text-decoration:none;
+  color:var(--white-wash); background:var(--deep-moss);
+  padding:0.5rem 1.4rem; border-radius:2rem; transition:background 0.25s;
+}
+.nav-book:hover { background:var(--clay); }
+.nav-bottom {
+  border-top:1px solid rgba(139,111,78,0.11);
+  display:flex; justify-content:center; padding:0.55rem 3rem;
+}
+.nav-links { display:flex; gap:2.8rem; list-style:none; }
+.nav-links a {
+  text-decoration:none; font-size:0.68rem; letter-spacing:0.2em;
+  text-transform:uppercase; color:var(--text-mid); font-weight:400;
+  transition:color 0.2s; position:relative;
+}
+.nav-links a::after {
+  content:''; position:absolute; bottom:-4px; left:0; right:0;
+  height:1px; background:var(--clay); transform:scaleX(0); transition:transform 0.25s;
+}
+.nav-links a:hover { color:var(--clay); }
+.nav-links a:hover::after { transform:scaleX(1); }
+
+/* ── HERO ── */
+.hero {
+  min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+  padding:11rem 4rem 5rem; position:relative; overflow:hidden;
+  background:var(--parchment);
+}
+.hero-texture {
+  position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 700px 500px at 80% 10%,rgba(92,107,71,0.09),transparent),
+    radial-gradient(ellipse 500px 500px at 10% 90%,rgba(181,103,59,0.08),transparent),
+    radial-gradient(ellipse 400px 400px at 50% 50%,rgba(196,168,130,0.05),transparent);
+}
+.hero-eyebrow {
+  font-size:0.68rem; letter-spacing:0.35em; text-transform:uppercase;
+  color:var(--clay); font-weight:500; margin-bottom:2rem;
+  display:flex; align-items:center; gap:0.8rem;
+  opacity:0; animation:fadeUp 0.8s 0.2s forwards;
+}
+.hero-eyebrow::before,.hero-eyebrow::after {
+  content:''; display:inline-block; width:28px; height:1px; background:var(--clay); opacity:0.55;
+}
+.hero-headline {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(4rem,9vw,8.5rem);
+  line-height:1.02; font-weight:300; color:var(--charcoal);
+  opacity:0; animation:fadeUp 0.9s 0.35s forwards;
+}
+.hero-headline em { font-style:italic; color:var(--clay); }
+.hero-headline strong { font-weight:600; color:var(--deep-moss); }
+.hero-sub {
+  margin-top:2rem; font-size:1rem; color:var(--text-mid);
+  max-width:460px; line-height:1.9; font-weight:300;
+  opacity:0; animation:fadeUp 0.9s 0.55s forwards;
+}
+.hero-btns {
+  margin-top:3rem; display:flex; gap:1rem; flex-wrap:wrap;
+  opacity:0; animation:fadeUp 0.9s 0.75s forwards;
+}
+.btn-primary {
+  background:var(--deep-moss); color:var(--parchment);
+  padding:0.9rem 2.2rem; border-radius:3rem; font-family:'Jost',sans-serif;
+  font-size:0.75rem; font-weight:500; letter-spacing:0.15em;
+  text-decoration:none; text-transform:uppercase;
+  border:2px solid var(--deep-moss); transition:all 0.25s;
+}
+.btn-primary:hover { background:var(--clay); border-color:var(--clay); }
+.btn-outline {
+  background:transparent; color:var(--deep-moss);
+  padding:0.9rem 2.2rem; border-radius:3rem; font-family:'Jost',sans-serif;
+  font-size:0.75rem; font-weight:500; letter-spacing:0.15em;
+  text-decoration:none; text-transform:uppercase;
+  border:2px solid rgba(61,74,45,0.38); transition:all 0.25s;
+}
+.btn-outline:hover { background:var(--deep-moss); color:var(--parchment); border-color:var(--deep-moss); }
+.hero-scroll {
+  position:absolute; bottom:2.5rem; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:0.5rem;
+  font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--warm-grey); opacity:0; animation:fadeUp 1s 1.1s forwards;
+}
+.scroll-line {
+  width:1px; height:48px; background:var(--mushroom);
+  animation:scrollLine 1.6s ease-in-out infinite;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+@keyframes scrollLine {
+  0%,100%{transform:scaleY(0);transform-origin:top}
+  50%{transform:scaleY(1);transform-origin:top}
+}
+
+/* ── SHARED ── */
+section { padding:6rem 4rem; }
+.section-eyebrow {
+  font-size:0.65rem; letter-spacing:0.35em; text-transform:uppercase;
+  color:var(--clay); font-weight:500; margin-bottom:1rem;
+  display:flex; align-items:center; gap:0.7rem;
+}
+.section-eyebrow::before { content:''; display:inline-block; width:22px; height:1px; background:var(--clay); opacity:0.65; }
+.section-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,4.5vw,3.6rem);
+  font-weight:300; line-height:1.1; color:var(--charcoal);
+}
+.section-title em { font-style:italic; color:var(--clay); }
+.section-title strong { font-weight:600; color:var(--deep-moss); }
+
+/* ── ABOUT ── */
+.about-section { background:var(--linen); }
+.about-inner {
+  display:grid; grid-template-columns:1fr 1.2fr;
+  gap:5rem; align-items:center; max-width:1150px; margin-top:0;
+}
+.about-visual { position:relative; }
+.about-img-frame {
+  width:100%; aspect-ratio:3/4; border-radius:1rem;
+  background:linear-gradient(160deg,var(--sand) 0%,var(--mushroom) 45%,var(--bark) 100%);
+  display:flex; align-items:center; justify-content:center; font-size:6rem;
+  position:relative; overflow:hidden;
+}
+.about-img-frame::after {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse at 30% 70%,rgba(255,255,255,0.14),transparent 60%);
+}
+.about-stat-pill {
+  position:absolute; bottom:-1.2rem; right:-1.2rem;
+  background:var(--charcoal); color:var(--parchment);
+  border-radius:1rem; padding:1.2rem 1.6rem;
+  box-shadow:0 8px 32px rgba(0,0,0,0.18);
+}
+.about-stat-pill .num {
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.2rem; font-weight:600; color:var(--mushroom);
+  display:block; line-height:1;
+}
+.about-stat-pill .lbl {
+  font-size:0.67rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:rgba(255,255,255,0.5); margin-top:0.3rem; display:block;
+}
+.about-content .section-eyebrow { margin-bottom:0.8rem; }
+.about-content .section-title { margin-bottom:1.8rem; }
+.about-bio {
+  font-size:0.97rem; line-height:2; color:var(--text-mid);
+  margin-bottom:1.4rem; font-weight:300;
+}
+.about-bio strong { color:var(--charcoal); font-weight:500; }
+.value-pills { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:2.2rem; }
+.value-pill {
+  background:rgba(139,111,78,0.1); border:1px solid rgba(139,111,78,0.2);
+  color:var(--bark); border-radius:2rem; padding:0.35rem 1rem;
+  font-size:0.75rem; letter-spacing:0.06em;
+}
+
+/* ── CLASSES ── */
+.classes-section { background:var(--white-wash); }
+.classes-section .section-title { margin-bottom:3.5rem; }
+.cards-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(290px,1fr));
+  gap:1.2rem; max-width:1200px;
+}
+.card {
+  border-radius:1.2rem; padding:2rem; position:relative; overflow:hidden;
+  cursor:pointer; transition:transform 0.3s, box-shadow 0.3s;
+}
+.card:hover { transform:translateY(-5px); box-shadow:0 18px 50px rgba(0,0,0,0.1); }
+.card-1 { background:linear-gradient(145deg,#EDD5C0,#D9B89A); color:var(--charcoal); }
+.card-2 { background:linear-gradient(145deg,#2C2820,#3D3426); color:#E8DBC8; }
+.card-3 { background:linear-gradient(145deg,#DFD0C4,#C9B4A4); color:var(--charcoal); }
+.card-4 { background:linear-gradient(145deg,#2A3020,#3D4A2D); color:#D0DCBE; }
+.card-5 { background:linear-gradient(145deg,#EAE0C8,#D4C49A); color:var(--charcoal); }
+.card-emoji { font-size:2.2rem; margin-bottom:1.1rem; display:block; }
+.card-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.55rem; font-weight:600; line-height:1.2; margin-bottom:0.6rem;
+}
+.card-quote {
+  font-size:0.84rem; line-height:1.7; opacity:0.72; font-style:italic;
+  margin-bottom:1.1rem; font-family:'Cormorant Garamond',serif;
+}
+.card-tag {
+  display:inline-block; padding:0.28rem 0.85rem; border-radius:2rem;
+  font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:500;
+  background:rgba(255,255,255,0.18);
+}
+.card-decor {
+  position:absolute; right:-15px; bottom:-10px;
+  font-size:5.5rem; opacity:0.07; transform:rotate(12deg); line-height:1;
+}
+
+/* ── REAL TALK ── */
+.real-talk-section { background:var(--linen); position:relative; overflow:hidden; }
+.real-talk-section::before {
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 600px 400px at 0% 50%,rgba(139,111,78,0.07),transparent),
+    radial-gradient(ellipse 400px 400px at 100% 0%,rgba(92,107,71,0.06),transparent);
+  pointer-events:none;
+}
+.ba-banners {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1.8rem; margin-top:3rem; max-width:860px;
+}
+.ba-banner { border-radius:1.2rem; padding:2.5rem 2.2rem; position:relative; overflow:hidden; }
+.ba-banner.before-banner { background:linear-gradient(150deg,#342820,#4A3528); color:#E8D8C4; }
+.ba-banner.after-banner  { background:linear-gradient(150deg,#253018,#3D4A2D); color:#D0DDB8; }
+.ba-label {
+  font-size:0.62rem; letter-spacing:0.3em; text-transform:uppercase;
+  font-weight:500; margin-bottom:1.6rem; display:block; opacity:0.5;
+}
+.before-banner .ba-label { color:#D9B89A; }
+.after-banner  .ba-label { color:#B8C99A; }
+.ba-list { list-style:none; display:flex; flex-direction:column; gap:0.9rem; }
+.ba-list li {
+  padding-left:1rem; border-left:2px solid rgba(255,255,255,0.14);
+  font-family:'Cormorant Garamond',serif; font-size:1.05rem; line-height:1.5;
+}
+.before-banner .ba-list li { border-left-color:rgba(217,184,154,0.35); }
+.after-banner  .ba-list li { border-left-color:rgba(184,201,154,0.35); }
+.ba-decor { position:absolute; right:1.5rem; bottom:1.2rem; font-size:3.8rem; opacity:0.06; }
+
+/* ── PRICING ── */
+.pricing-section { background:var(--parchment); }
+.pricing-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(235px,1fr));
+  gap:1.2rem; margin-top:3.5rem; max-width:1100px;
+}
+.price-card {
+  border-radius:1.2rem; padding:2rem 1.8rem;
+  border:1px solid rgba(139,111,78,0.18); background:var(--white-wash);
+  transition:transform 0.3s, box-shadow 0.3s;
+}
+.price-card:hover { transform:translateY(-4px); box-shadow:0 14px 44px rgba(139,111,78,0.12); }
+.price-card.featured { background:var(--charcoal); color:var(--parchment); border-color:var(--charcoal); }
+.price-card.featured .price-vibe { color:rgba(242,235,217,0.55); }
+.price-card.featured .price-amount { color:var(--mushroom); }
+.price-card.featured .price-desc { color:rgba(242,235,217,0.5); }
+.price-dot { font-size:1.3rem; margin-bottom:1rem; display:block; }
+.price-tier { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:600; margin-bottom:0.2rem; }
+.price-amount { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:700; color:var(--clay); margin:0.5rem 0; }
+.price-vibe { font-size:0.82rem; font-style:italic; color:var(--text-mid); margin-bottom:1rem; line-height:1.5; font-family:'Cormorant Garamond',serif; }
+.price-desc { font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--warm-grey); font-weight:500; }
+.price-btn {
+  display:block; margin-top:1.5rem; text-align:center;
+  padding:0.65rem; border-radius:2rem; font-size:0.7rem;
+  letter-spacing:0.14em; text-transform:uppercase; font-weight:500;
+  text-decoration:none; border:1.5px solid var(--bark); color:var(--bark);
+  transition:all 0.2s;
+}
+.price-btn:hover { background:var(--bark); color:var(--parchment); }
+.price-card.featured .price-btn { border-color:var(--mushroom); color:var(--mushroom); }
+.price-card.featured .price-btn:hover { background:var(--mushroom); color:var(--charcoal); }
+
+/* ── RETREATS ── */
+.retreats-section { background:var(--charcoal); color:var(--parchment); overflow:hidden; position:relative; }
+.retreats-section::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 700px 500px at 80% 20%,rgba(92,107,71,0.12),transparent),
+    radial-gradient(ellipse 500px 500px at 0% 80%,rgba(181,103,59,0.08),transparent);
+}
+.retreats-section .section-eyebrow { color:var(--mushroom); }
+.retreats-section .section-eyebrow::before { background:var(--mushroom); }
+.retreats-section .section-title { color:var(--parchment); }
+.retreats-section .section-title em { color:var(--clay); }
+.retreats-intro { font-size:0.97rem; color:rgba(242,235,217,0.6); max-width:540px; line-height:1.9; margin-top:1rem; margin-bottom:3.5rem; font-weight:300; }
+.retreat-types { display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; max-width:680px; margin-bottom:3rem; }
+.retreat-type {
+  background:rgba(255,255,255,0.04); border-radius:0.9rem;
+  padding:1.2rem 1.4rem; display:flex; align-items:center; gap:1rem;
+  border:1px solid rgba(255,255,255,0.07); transition:all 0.25s;
+}
+.retreat-type:hover { background:rgba(255,255,255,0.08); border-color:rgba(196,168,130,0.4); }
+.retreat-type-icon { font-size:1.7rem; }
+.retreat-type-name { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600; color:var(--parchment); display:block; margin-bottom:0.15rem; }
+.retreat-type-desc { font-size:0.74rem; color:rgba(242,235,217,0.45); }
+.dest-chips { display:flex; gap:0.7rem; flex-wrap:wrap; margin-bottom:3rem; }
+.dest-chip {
+  background:rgba(196,168,130,0.1); border:1px solid rgba(196,168,130,0.25);
+  color:var(--mushroom); padding:0.35rem 0.95rem; border-radius:2rem;
+  font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:500;
+}
+.retreats-cta-box {
+  background:rgba(255,255,255,0.04); border:1px solid rgba(181,103,59,0.25);
+  border-radius:1.2rem; padding:2.5rem; max-width:560px;
+}
+.retreats-cta-box h3 { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:600; margin-bottom:0.8rem; color:var(--parchment); }
+.retreats-cta-box p { color:rgba(242,235,217,0.55); font-size:0.92rem; line-height:1.8; margin-bottom:1.8rem; font-weight:300; }
+
+/* ── CONTACT ── */
+.contact-section { background:var(--linen); position:relative; overflow:hidden; }
+.contact-section::before {
+  content:''; position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 650px 600px at 95% 5%,rgba(92,107,71,0.08),transparent),
+    radial-gradient(ellipse 500px 500px at 5% 95%,rgba(181,103,59,0.07),transparent);
+}
+.contact-wrapper { max-width:1100px; position:relative; }
+.contact-header { margin-bottom:3.5rem; }
+.contact-header .section-title { max-width:560px; }
+.contact-header p { margin-top:1.1rem; font-size:0.97rem; color:var(--text-mid); max-width:480px; line-height:1.9; font-weight:300; }
+.contact-body { display:grid; grid-template-columns:1fr 1.4fr; gap:4rem; align-items:start; }
+
+/* left info */
+.contact-tagline {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem; font-style:italic; font-weight:300;
+  color:var(--bark); line-height:1.4; margin-bottom:2.5rem;
+}
+.contact-links { display:flex; flex-direction:column; gap:0.9rem; margin-bottom:2.5rem; }
+.contact-link-row {
+  display:flex; align-items:center; gap:1.1rem;
+  padding:1rem 1.3rem; border-radius:0.9rem;
+  background:rgba(255,255,255,0.55); border:1px solid rgba(139,111,78,0.14);
+  text-decoration:none; color:var(--text-dark); transition:all 0.25s;
+}
+.contact-link-row:hover {
+  background:rgba(255,255,255,0.9); border-color:rgba(181,103,59,0.3);
+  transform:translateX(4px); box-shadow:0 4px 20px rgba(139,111,78,0.1);
+}
+.contact-link-icon {
+  width:40px; height:40px; border-radius:50%;
+  background:var(--linen); border:1px solid rgba(139,111,78,0.18);
+  display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0;
+}
+.contact-link-type { font-size:0.62rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--warm-grey); margin-bottom:0.18rem; display:block; }
+.contact-link-val { font-size:0.88rem; color:var(--charcoal); font-weight:400; }
+.social-strip { display:flex; gap:0.7rem; }
+.social-pill {
+  text-decoration:none; background:var(--charcoal); color:var(--parchment);
+  padding:0.45rem 1.1rem; border-radius:2rem;
+  font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:500;
+  transition:background 0.2s;
+}
+.social-pill:hover { background:var(--clay); }
+
+/* right form */
+.contact-form-panel {
+  background:rgba(255,255,255,0.62); backdrop-filter:blur(8px);
+  border:1px solid rgba(139,111,78,0.14); border-radius:1.2rem; padding:2.5rem;
+}
+.form-heading { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:600; color:var(--charcoal); margin-bottom:0.4rem; }
+.form-subheading { font-size:0.82rem; color:var(--text-mid); margin-bottom:2rem; line-height:1.6; }
+.cform { display:flex; flex-direction:column; gap:1rem; }
+.cform-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.cform input, .cform textarea, .cform select {
+  width:100%; padding:0.85rem 1.1rem; border-radius:0.65rem;
+  border:1.5px solid rgba(139,111,78,0.18); background:rgba(255,255,255,0.7);
+  font-family:'Jost',sans-serif; font-size:0.87rem; font-weight:300;
+  color:var(--text-dark); outline:none; transition:border-color 0.2s, background 0.2s;
+}
+.cform input::placeholder, .cform textarea::placeholder { color:var(--warm-grey); }
+.cform input:focus, .cform textarea:focus, .cform select:focus { border-color:var(--bark); background:rgba(255,255,255,0.92); }
+.cform textarea { resize:vertical; min-height:110px; }
+.cform select { color:var(--text-mid); cursor:pointer; appearance:none; }
+.cform-submit {
+  width:100%; padding:0.95rem; background:var(--deep-moss); color:var(--parchment);
+  border:none; border-radius:0.65rem; font-family:'Jost',sans-serif;
+  font-size:0.78rem; letter-spacing:0.18em; text-transform:uppercase; font-weight:500;
+  cursor:pointer; transition:all 0.25s;
+}
+.cform-submit:hover { background:var(--clay); }
+
+/* ── FOOTER ── */
+footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2rem; }
+.footer-top {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  flex-wrap:wrap; gap:2.5rem; padding-bottom:3rem;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+}
+.footer-logo { font-family:'Cormorant Garamond',serif; font-size:1.7rem; font-weight:600; color:var(--parchment); }
+.footer-logo span { color:var(--clay); }
+.footer-tagline { font-size:0.82rem; color:rgba(242,235,217,0.38); margin-top:0.4rem; font-style:italic; }
+.footer-cols { display:flex; gap:4rem; flex-wrap:wrap; }
+.footer-col h4 { font-size:0.62rem; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.28); margin-bottom:1rem; }
+.footer-col a { display:block; color:rgba(242,235,217,0.58); text-decoration:none; font-size:0.85rem; margin-bottom:0.55rem; font-weight:300; transition:color 0.2s; }
+.footer-col a:hover { color:var(--mushroom); }
+.footer-bottom {
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;
+  padding-top:2rem; font-size:0.74rem; color:rgba(242,235,217,0.26);
+}
+
+/* ── REVEAL ── */
+.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width:900px) {
+  .about-inner { grid-template-columns:1fr; gap:3rem; }
+  .about-stat-pill { right:1rem; bottom:-1rem; }
+  .contact-body { grid-template-columns:1fr; gap:3rem; }
+  .ba-banners { grid-template-columns:1fr; }
+  .retreat-types { grid-template-columns:1fr; }
+}
+@media (max-width:680px) {
+  .nav-top { padding:0.9rem 1.5rem; }
+  .nav-bottom { padding:0.5rem 1rem; }
+  .nav-links { gap:1.5rem; }
+  .nav-links a { font-size:0.6rem; letter-spacing:0.14em; }
+  section { padding:4rem 1.5rem; }
+  .hero { padding:9.5rem 1.5rem 3rem; }
+  .cform-row { grid-template-columns:1fr; }
+  .footer-top { flex-direction:column; }
+  footer { padding:3rem 1.5rem 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-top">
+    <div class="nav-logo">Yogaa<span>alayaa</span></div>
+    <a href="#contact" class="nav-book">Book Now</a>
+  </div>
+  <div class="nav-bottom">
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#classes">Classes</a></li>
+      <li><a href="#real-talk">Real Talk</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#retreats">Retreats</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-texture"></div>
+  <p class="hero-eyebrow">Welcome to Yogaaalayaa</p>
+  <h1 class="hero-headline">
+    Calm body.<br><em>Loud mind.</em><br><strong>We fix both.</strong>
+  </h1>
+  <p class="hero-sub">Yoga for the overthinkers, the main characters, the emotional ones — and everyone who said "I'll start Monday" for the third week running.</p>
+  <div class="hero-btns">
+    <a href="#classes" class="btn-primary">Pick Your Vibe</a>
+    <a href="#retreats" class="btn-outline">Explore Retreats</a>
+  </div>
+  <div class="hero-scroll"><span class="scroll-line"></span>scroll</div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-inner">
+    <div class="about-visual reveal">
+      <div class="about-img-frame">🧘</div>
+      <div class="about-stat-pill">
+        <span class="num">500+</span>
+        <span class="lbl">Lives transformed</span>
+      </div>
+    </div>
+    <div class="about-content reveal">
+      <p class="section-eyebrow">Who we are</p>
+      <h2 class="section-title">A space to breathe,<br>feel, and come <em>home</em></h2>
+      <p class="about-bio">
+        Welcome to <strong>Yogaaalayaa</strong> — a place where yoga is never about being perfect, flexible, or having it all together. We created this space for the real ones: the overthinkers, the healers, the main characters still figuring it out.
+      </p>
+      <p class="about-bio">
+        Every class is designed with <strong>intention and warmth</strong>. Whether you're here to sweat, cry, breathe, or simply be still — you'll always leave feeling a little lighter than when you walked in. This is your sanctuary. No judgement, no pressure, just you and your practice.
+      </p>
+      <div class="value-pills">
+        <span class="value-pill">🌿 Inclusive</span>
+        <span class="value-pill">🕊 Non-judgmental</span>
+        <span class="value-pill">✨ Intentional</span>
+        <span class="value-pill">🔥 Transformative</span>
+      </div>
+      <a href="#classes" class="btn-primary">Explore Classes</a>
+    </div>
+  </div>
+</section>
+
+<!-- CLASSES -->
+<section class="classes-section" id="classes">
+  <div class="reveal">
+    <p class="section-eyebrow">Find your practice</p>
+    <h2 class="section-title">Pick your personality<br>for <em>today</em></h2>
+  </div>
+  <div class="cards-grid">
+    <div class="card card-1 reveal">
+      <span class="card-emoji">💅</span>
+      <div class="card-title">Hot Girl Yoga</div>
+      <p class="card-quote">"For main characters only."</p>
+      <span class="card-tag">Glow &gt; Perfection</span>
+      <div class="card-decor">✨</div>
+    </div>
+    <div class="card card-2 reveal">
+      <span class="card-emoji">🌙</span>
+      <div class="card-title">Night Yoga for Overthinkers</div>
+      <p class="card-quote">"We stretch. We breathe. We overthink less (hopefully)."</p>
+      <span class="card-tag">For the 2am minds</span>
+      <div class="card-decor">🌙</div>
+    </div>
+    <div class="card card-3 reveal">
+      <span class="card-emoji">🫧</span>
+      <div class="card-title">Emotion Release Yoga</div>
+      <p class="card-quote">"Crying is part of the workout."</p>
+      <span class="card-tag">Feel it all</span>
+      <div class="card-decor">💧</div>
+    </div>
+    <div class="card card-4 reveal">
+      <span class="card-emoji">🌿</span>
+      <div class="card-title">Deep Roots Yoga</div>
+      <p class="card-quote">"For those who need grounding more than grinding."</p>
+      <span class="card-tag">Slow &amp; intentional</span>
+      <div class="card-decor">🌿</div>
+    </div>
+    <div class="card card-5 reveal">
+      <span class="card-emoji">🕯️</span>
+      <div class="card-title">Glow Yoga</div>
+      <p class="card-quote">"Turn off the lights. Turn on the drama."</p>
+      <span class="card-tag">Candlelit magic</span>
+      <div class="card-decor">✨</div>
+    </div>
+  </div>
+</section>
+
+<!-- REAL TALK -->
+<section class="real-talk-section" id="real-talk">
+  <div class="reveal">
+    <p class="section-eyebrow">Real talk</p>
+    <h2 class="section-title">You, <em>before &amp; after</em><br>finding us</h2>
+  </div>
+  <div class="ba-banners">
+    <div class="ba-banner before-banner reveal">
+      <span class="ba-label">Before</span>
+      <ul class="ba-list">
+        <li>😒 "Yoga is so boring"</li>
+        <li>😅 "I can't even sit still"</li>
+        <li>🙃 "I'll start Monday"</li>
+        <li>😩 "My brain never shuts up"</li>
+      </ul>
+      <div class="ba-decor">😮‍💨</div>
+    </div>
+    <div class="ba-banner after-banner reveal">
+      <span class="ba-label">After</span>
+      <ul class="ba-list">
+        <li>✨ "I feel lighter??"</li>
+        <li>💆 "Why am I calmer??"</li>
+        <li>🤭 "Okay I'm actually addicted"</li>
+        <li>😌 "My brain said shhh for once"</li>
+      </ul>
+      <div class="ba-decor">🌸</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="reveal">
+    <p class="section-eyebrow">Invest in yourself</p>
+    <h2 class="section-title">Pick your <em>healing era</em></h2>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card reveal">
+      <span class="price-dot">🟢</span>
+      <div class="price-tier">Just Curious</div>
+      <div class="price-amount">₹299</div>
+      <div class="price-desc">per session</div>
+      <p class="price-vibe">"I'm just checking the vibe."</p>
+      <a href="#contact" class="price-btn">Start here</a>
+    </div>
+    <div class="price-card reveal">
+      <span class="price-dot">🟡</span>
+      <div class="price-tier">Getting Serious</div>
+      <div class="price-amount">₹999</div>
+      <div class="price-desc">per month</div>
+      <p class="price-vibe">"Okay maybe I actually need this."</p>
+      <a href="#contact" class="price-btn">Let's go</a>
+    </div>
+    <div class="price-card featured reveal">
+      <span class="price-dot">🔴</span>
+      <div class="price-tier">Healing Era</div>
+      <div class="price-amount">₹1,999</div>
+      <div class="price-desc">per month</div>
+      <p class="price-vibe">"I'm fixing my life fr."</p>
+      <a href="#contact" class="price-btn">I need this</a>
+    </div>
+    <div class="price-card reveal">
+      <span class="price-dot">💎</span>
+      <div class="price-tier">Main Character</div>
+      <div class="price-amount">₹799–₹1,499</div>
+      <div class="price-desc">private session</div>
+      <p class="price-vibe">"It's me, hi. I'm the priority."</p>
+      <a href="#contact" class="price-btn">Book private</a>
+    </div>
+  </div>
+</section>
+
+<!-- RETREATS -->
+<section class="retreats-section" id="retreats">
+  <div class="reveal">
+    <p class="section-eyebrow">Go deeper</p>
+    <h2 class="section-title">Sacred retreats across<br><em>incredible India</em></h2>
+    <p class="retreats-intro">Disconnect from the noise. Reconnect with yourself. We take you to the most sacred, wild, and breathtaking corners of India — for retreats that go way beyond stretching.</p>
+  </div>
+  <div class="retreat-types reveal">
+    <div class="retreat-type">
+      <span class="retreat-type-icon">🧘</span>
+      <div><span class="retreat-type-name">Yoga</span><span class="retreat-type-desc">Asana, pranayama & meditation</span></div>
+    </div>
+    <div class="retreat-type">
+      <span class="retreat-type-icon">📿</span>
+      <div><span class="retreat-type-name">Philosophy</span><span class="retreat-type-desc">Ancient wisdom, modern living</span></div>
+    </div>
+    <div class="retreat-type">
+      <span class="retreat-type-icon">🌿</span>
+      <div><span class="retreat-type-name">Nature Connection</span><span class="retreat-type-desc">Forest, river, mountain therapy</span></div>
+    </div>
+    <div class="retreat-type">
+      <span class="retreat-type-icon">🌕</span>
+      <div><span class="retreat-type-name">Manifestation</span><span class="retreat-type-desc">Intention setting & inner work</span></div>
+    </div>
+  </div>
+  <div class="dest-chips reveal">
+    <span class="dest-chip">🏔 Rishikesh</span>
+    <span class="dest-chip">🌊 Kerala Backwaters</span>
+    <span class="dest-chip">🏜 Rajasthan Dunes</span>
+    <span class="dest-chip">🌸 Spiti Valley</span>
+    <span class="dest-chip">🌺 Coorg</span>
+    <span class="dest-chip">🗻 Uttarakhand</span>
+    <span class="dest-chip">🏝 Andaman</span>
+  </div>
+  <div class="retreats-cta-box reveal">
+    <h3>Your next chapter starts here 🌅</h3>
+    <p>Limited spots each retreat. We keep it intimate, intentional, and deeply transformative. Not your average wellness getaway — this is the real thing.</p>
+    <a href="#contact" class="btn-primary">Enquire About Retreats</a>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-wrapper">
+    <div class="contact-header reveal">
+      <p class="section-eyebrow">Say hello</p>
+      <h2 class="section-title">Let's start your<br>journey <em>together</em></h2>
+      <p>Whether you're curious about a class, dreaming of a retreat, or just figuring out where to begin — we'd love to hear from you. No pressure, just a warm conversation.</p>
+    </div>
+    <div class="contact-body">
+      <div class="reveal">
+        <p class="contact-tagline">"Every practice begins<br>with a single breath."</p>
+        <div class="contact-links">
+          <a href="mailto:hello@yogaaalayaa.com" class="contact-link-row">
+            <span class="contact-link-icon">✉️</span>
+            <span>
+              <span class="contact-link-type">Email</span>
+              <span class="contact-link-val">[hello@yogaaalayaa.com]</span>
+            </span>
+          </a>
+          <a href="#" class="contact-link-row">
+            <span class="contact-link-icon">📱</span>
+            <span>
+              <span class="contact-link-type">WhatsApp / Phone</span>
+              <span class="contact-link-val">[Your Number Here]</span>
+            </span>
+          </a>
+          <a href="#" class="contact-link-row">
+            <span class="contact-link-icon">📍</span>
+            <span>
+              <span class="contact-link-type">Studio Location</span>
+              <span class="contact-link-val">[Your Address Here]</span>
+            </span>
+          </a>
+        </div>
+        <div class="social-strip">
+          <a href="#" class="social-pill">📸 Instagram</a>
+          <a href="#" class="social-pill">💬 WhatsApp</a>
+        </div>
+      </div>
+      <div class="contact-form-panel reveal">
+        <h3 class="form-heading">Send us a note 🌿</h3>
+        <p class="form-subheading">Fill this in and we'll reach out within 24 hours. We're warm, we don't bite.</p>
+        <div class="cform">
+          <div class="cform-row">
+            <input type="text" placeholder="Your name" />
+            <input type="tel" placeholder="Phone / WhatsApp" />
+          </div>
+          <input type="email" placeholder="Email address" />
+          <select>
+            <option value="" disabled selected>I'm interested in…</option>
+            <option>Hot Girl Yoga</option>
+            <option>Night Yoga for Overthinkers</option>
+            <option>Emotion Release Yoga</option>
+            <option>Deep Roots Yoga</option>
+            <option>Glow Yoga</option>
+            <option>A Retreat</option>
+            <option>Private Session</option>
+            <option>Just exploring 👀</option>
+          </select>
+          <textarea placeholder="Anything you want us to know? (optional)"></textarea>
+          <button class="cform-submit" onclick="alert('Thank you 🌿 We\'ll be in touch soon!')">Send Message ✦</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">Yogaa<span>alayaa</span></div>
+      <p class="footer-tagline">Calm body. Loud mind. We fix both.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Practice</h4>
+        <a href="#about">About</a>
+        <a href="#classes">Classes</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#retreats">Retreats</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="#">Instagram</a>
+        <a href="#">WhatsApp</a>
+        <a href="#">Email Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Yogaaalayaa. All rights reserved.</span>
+    <span>Made with 🌿 and a lot of deep breaths</span>
+  </div>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 70);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

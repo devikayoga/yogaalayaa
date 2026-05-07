@@ -730,25 +730,29 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
       <div class="contact-form-panel reveal">
         <h3 class="form-heading">Send us a note 🌿</h3>
         <p class="form-subheading">Fill this in and we'll reach out within 24 hours. We're warm, we don't bite.</p>
-        <div class="cform">
+        <form action="https://script.google.com/macros/s/AKfycbyBP2dPieAlJxSxzfWFyLIffqnYJNmSLyoibGpi4V96ckugRcZblqj83cDU2iULrXqlOw/exec" method="POST" class="cform" id="contactForm">
           <div class="cform-row">
-            <input type="text" placeholder="Your name" />
-            <input type="tel" placeholder="Phone / WhatsApp" />
+            <input type="text" name="Name" placeholder="Your name" required />
+            <input type="tel" name="Phone" placeholder="Phone / WhatsApp" required />
           </div>
-          <input type="email" placeholder="Email address" />
-          <select>
+          <input type="email" name="Email" placeholder="Email address" required />
+          
+          <select name="Interest" required>
             <option value="" disabled selected>I'm interested in…</option>
-            <option>Hot Girl Yoga</option>
-            <option>Night Yoga for Overthinkers</option>
-            <option>Emotion Release Yoga</option>
-            <option>Deep Roots Yoga</option>
-            <option>Glow Yoga</option>
-            <option>A Retreat</option>
-            <option>Private Session</option>
-            <option>Just exploring 👀</option>
+            <option value="Hot Girl Yoga">Hot Girl Yoga</option>
+            <option value="Night Yoga for Overthinkers">Night Yoga for Overthinkers</option>
+            <option value="Emotion Release Yoga">Emotion Release Yoga</option>
+            <option value="Deep Roots Yoga">Deep Roots Yoga</option>
+            <option value="Glow Yoga">Glow Yoga</option>
+            <option value="A Retreat">A Retreat</option>
+            <option value="Private Session">Private Session</option>
+            <option value="Just exploring">Just exploring 👀</option>
           </select>
-          <textarea placeholder="Anything you want us to know? (optional)"></textarea>
-          <button class="cform-submit" onclick="alert('Thank you 🌿 We\'ll be in touch soon!')">Send Message ✦</button>
+          
+          <textarea name="Message" placeholder="Anything you want us to know? (optional)"></textarea>
+          
+          <button type="submit" class="cform-submit">Send Message ✦</button>
+        </form>
         </div>
       </div>
     </div>
@@ -800,6 +804,25 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 reveals.forEach(el => observer.observe(el));
+</script>
+  <script>
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('.cform-submit');
+    submitBtn.innerText = "Sending..."; 
+    
+    fetch(form.action, { method: 'POST', body: new FormData(form) })
+      .then(response => {
+          alert("Thank you 🌿 We'll be in touch soon!");
+          form.reset();
+          submitBtn.innerText = "Send Message ✦";
+      })
+      .catch(error => {
+          alert("Oops! Something went wrong.");
+          submitBtn.innerText = "Send Message ✦";
+      });
+  });
 </script>
 </body>
 </html>

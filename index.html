@@ -812,21 +812,19 @@ reveals.forEach(el => observer.observe(el));
     const submitBtn = form.querySelector('.cform-submit');
     submitBtn.innerText = "Sending..."; 
     
-    // We package the data exactly how Google expects it
+    // 1. Format the data exactly how Google expects it
     const data = new URLSearchParams(new FormData(form));
     
+    // 2. Send it with 'no-cors' so the browser doesn't block it
     fetch(form.action, { 
       method: 'POST', 
-      body: data 
+      body: data,
+      mode: 'no-cors'
     })
-      .then(response => response.json()) // Google returns JSON on success
-      .then(data => {
-          if(data.result === "success") {
-              alert("Thank you 🌿 We'll be in touch soon!");
-              form.reset();
-          } else {
-              alert("Oops! Google received it, but threw an error. Check your Apps Script log!");
-          }
+      .then(() => {
+          // 3. Since no-cors hides Google's technical receipt, we just show the success message!
+          alert("Thank you 🌿 We'll be in touch soon!");
+          form.reset();
           submitBtn.innerText = "Send Message ✦";
       })
       .catch(error => {

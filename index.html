@@ -55,6 +55,12 @@ nav {
   font-size:1.55rem; font-weight:600; color:var(--charcoal);
 }
 .nav-logo span { color:var(--clay); }
+.studio-logo {
+  height: 45px; /* Change this number to make your logo bigger or smaller */
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
 .nav-book {
   font-family:'Jost',sans-serif; font-size:0.68rem; letter-spacing:0.2em;
   text-transform:uppercase; font-weight:500; text-decoration:none;
@@ -470,7 +476,9 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
 <!-- NAV -->
 <nav>
   <div class="nav-top">
-    <div class="nav-logo">Yogaa<span>alayaa</span></div>
+    <a href="index.html" class="nav-logo" style="text-decoration: none;">
+      <img src="pink.png" alt="Yogaaalayaa Logo" class="studio-logo">
+    </a>
     <a href="#contact" class="nav-book">Book Now</a>
   </div>
   <div class="nav-bottom">
@@ -763,7 +771,9 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
 <footer>
   <div class="footer-top">
     <div>
-      <div class="footer-logo">Yogaa<span>alayaa</span></div>
+      <div class="footer-logo">
+        <img src="pink.png" alt="Yogaaalayaa Logo" class="studio-logo">
+      </div>
       <p class="footer-tagline">Calm body. Loud mind. We fix both.</p>
     </div>
     <div class="footer-cols">

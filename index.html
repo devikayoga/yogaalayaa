@@ -56,10 +56,23 @@ nav {
 }
 .nav-logo span { color:var(--clay); }
 .studio-logo {
-  height: 45px; /* Change this number to make your logo bigger or smaller */
+  height: 85px; /* Increased size significantly (was 45px) */
   width: auto;
   object-fit: contain;
   display: block;
+  border-radius: 16px; /* Rounds the harsh corners */
+  mix-blend-mode: multiply; /* The magic trick that blends the pink background into the cream navbar */
+  transition: transform 0.3s ease; /* Adds a smooth animation */
+}
+.footer-logo .studio-logo {
+  height: 55px; /* Makes it a tasteful, slightly smaller size for the footer */
+  mix-blend-mode: normal; /* Turns OFF the melt effect so it doesn't disappear in the dark */
+  border-radius: 12px; /* Keeps the modern rounded edges */
+}
+
+/* Optional: Adds a tiny little "lift" effect when someone hovers over the logo */
+.studio-logo:hover {
+  transform: scale(1.05); 
 }
 .nav-book {
   font-family:'Jost',sans-serif; font-size:0.68rem; letter-spacing:0.2em;

@@ -514,6 +514,117 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
   .footer-top { flex-direction:column; }
   footer { padding:3rem 1.5rem 2rem; }
 }
+/* --- FLOATING VIBE CHECK WIDGET --- */
+.vibe-fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: var(--charcoal); /* Dark elegant button */
+  color: var(--parchment);
+  border: none;
+  border-radius: 50px;
+  padding: 15px 25px;
+  font-family: inherit;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.vibe-fab:hover {
+  transform: translateY(-3px);
+  background-color: #333;
+}
+
+/* The Popup Window */
+.vibe-popup {
+  position: fixed;
+  bottom: 90px; /* Sits right above the button */
+  right: 30px;
+  width: 380px;
+  max-width: 90vw; /* Keeps it responsive on small phones */
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  z-index: 999;
+  
+  /* Hidden state for animation */
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none; 
+  transition: all 0.3s ease;
+}
+
+/* Active state for animation */
+.vibe-popup.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.close-vibe-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #999;
+  cursor: pointer;
+}
+
+.vibe-popup h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+.vibe-popup p {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.vibe-popup textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 1rem;
+  border: 1px solid #EFE9D2;
+  border-radius: 12px;
+  font-family: inherit;
+  resize: none;
+  margin-bottom: 1rem;
+  background-color: #FAFAFA;
+}
+
+.vibe-popup textarea:focus {
+  outline: none;
+  border-color: #D8BFFF;
+  box-shadow: 0 0 0 3px rgba(216, 191, 255, 0.2);
+}
+
+.vibe-popup .btn {
+  width: 100%;
+}
+
+.vibe-response {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #F3E5F5;
+  border-radius: 12px;
+  color: var(--text-dark);
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.hidden {
+  display: none !important;
+}
 </style>
 </head>
 <body>
@@ -884,6 +995,64 @@ reveals.forEach(el => observer.observe(el));
           submitBtn.innerText = "Send Message ✦";
       });
   });
+// --- FLOATING VIBE CHECK LOGIC ---
+const vibeFab = document.getElementById('vibeFab');
+const vibePopup = document.getElementById('vibePopup');
+const closeVibePopup = document.getElementById('closeVibePopup');
+const vibeSubmitBtn = document.getElementById('vibeSubmitBtn');
+const moodInput = document.getElementById('moodInput');
+const vibeResponse = document.getElementById('vibeResponse');
+
+// Toggle the popup open
+vibeFab.addEventListener('click', () => {
+    vibePopup.classList.toggle('active');
+    if (vibePopup.classList.contains('active')) {
+        moodInput.focus(); // Automatically put the cursor in the box
+    }
+});
+
+// Close the popup
+closeVibePopup.addEventListener('click', () => {
+    vibePopup.classList.remove('active');
+});
+
+// Your live Apps Script bridge
+const matchmakerUrl = "https://script.google.com/macros/s/AKfycbz0hg3ndsvNV_lEwtk0spem27_yOzsuZeu64HCzK-LKtrz1Fgiu8L-Ri9GB28wguTFH/exec";
+
+// The AI Request
+vibeSubmitBtn.addEventListener('click', async () => {
+    const mood = moodInput.value.trim();
+    
+    if (!mood) {
+        alert("Please tell us how you're feeling first! 🌿");
+        return;
+    }
+
+    const originalText = vibeSubmitBtn.innerText;
+    vibeSubmitBtn.innerText = "Taking a deep breath...";
+    vibeSubmitBtn.disabled = true;
+    vibeResponse.classList.add('hidden');
+
+    try {
+        const response = await fetch(matchmakerUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ mood: mood })
+        });
+        
+        const data = await response.json();
+        
+        vibeResponse.innerText = data.reply;
+        vibeResponse.classList.remove('hidden');
+    } catch (error) {
+        vibeResponse.innerText = "We're having trouble connecting, but we are sending you calming energy. Try again in a moment!";
+        vibeResponse.classList.remove('hidden');
+    }
+
+    vibeSubmitBtn.innerText = originalText;
+    vibeSubmitBtn.disabled = false;
+    moodInput.value = ""; 
+});
 </script>
 </body>
 </html>

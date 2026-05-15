@@ -958,6 +958,18 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
     <span>Made with 🌿 and a lot of deep breaths</span>
   </div>
 </footer>
+<button id="vibeFab" class="vibe-fab">🌿 How are you feeling today?</button>
+
+    <div id="vibePopup" class="vibe-popup">
+        <button id="closeVibePopup" class="close-vibe-btn">&times;</button>
+        <h3>Not sure where to start?</h3>
+        <p>Tell us what's on your mind today. Don't overthink it.</p>
+        
+        <textarea id="moodInput" placeholder="e.g., I'm so burnt out, my boss yelled at me, and my brain won't stop racing..."></textarea>
+        <button id="vibeSubmitBtn" class="btn">Match My Vibe</button>
+        
+        <div id="vibeResponse" class="vibe-response hidden"></div>
+    </div>
 
 <script>
 const reveals = document.querySelectorAll('.reveal');

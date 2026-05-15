@@ -515,37 +515,78 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
   footer { padding:3rem 1.5rem 2rem; }
 }
 /* --- FLOATING VIBE CHECK WIDGET --- */
-.vibe-fab {
+.vibe-wrapper {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  background-color: var(--charcoal); /* Dark elegant button */
-  color: var(--parchment);
-  border: none;
-  border-radius: 50px;
-  padding: 15px 25px;
-  font-family: inherit;
-  font-size: 1.1rem;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  cursor: pointer;
   z-index: 1000;
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
 }
 
-.vibe-fab:hover {
-  transform: translateY(-3px);
-  background-color: #333;
+/* The Speech Bubble */
+.vibe-tooltip {
+  background-color: #ffffff;
+  color: var(--text-dark, #222222);
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  position: relative;
+  cursor: pointer;
+  animation: floatUpDown 3s infinite ease-in-out;
+  transition: opacity 0.3s ease;
 }
 
-/* The Popup Window */
+/* The little triangle pointing down to the leaf */
+.vibe-tooltip::after { 
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  right: 22px;
+  border-width: 6px 6px 0;
+  border-style: solid;
+  border-color: #ffffff transparent transparent transparent;
+}
+
+/* The Floating Leaf (No Background) */
+.vibe-fab-icon {
+  background: transparent;
+  border: none;
+  font-size: 3.5rem; /* Makes the leaf larger */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); /* Soft shadow on the leaf */
+}
+
+.vibe-fab-icon:hover {
+  transform: scale(1.15) rotate(-5deg); /* Grows and tilts slightly */
+}
+
+/* Gentle hovering animation for the text bubble */
+@keyframes floatUpDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* --- THE POPUP WINDOW --- */
 .vibe-popup {
   position: fixed;
-  bottom: 90px; /* Sits right above the button */
+  bottom: 90px; 
   right: 30px;
   width: 380px;
-  max-width: 90vw; /* Keeps it responsive on small phones */
+  max-width: 90vw; 
+  max-height: 80vh; /* Prevents the box from growing taller than the screen */
+  overflow-y: auto; /* Adds a scrollbar if the text gets too long */
   background: #ffffff;
-  padding: 2rem;
+  padding: 2.5rem 2rem 2rem 2rem; /* Extra padding at the top for the X */
   border-radius: 20px;
   box-shadow: 0 10px 40px rgba(0,0,0,0.15);
   z-index: 999;
@@ -564,15 +605,22 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
   pointer-events: all;
 }
 
+/* The Close Button */
 .close-vibe-btn {
   position: absolute;
   top: 15px;
   right: 15px;
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: #999;
   cursor: pointer;
+  z-index: 10; /* Forces the X to stay on top of the text */
+  line-height: 1;
+}
+
+.close-vibe-btn:hover {
+  color: var(--charcoal, #222222);
 }
 
 .vibe-popup h3 {
@@ -958,7 +1006,10 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
     <span>Made with 🌿 and a lot of deep breaths</span>
   </div>
 </footer>
-<button id="vibeFab" class="vibe-fab">🌿 How are you feeling today?</button>
+<div class="vibe-wrapper">
+        <div id="vibeTooltip" class="vibe-tooltip">What's on your mind?</div>
+        <button id="vibeFab" class="vibe-fab-icon">🌿</button>
+    </div>
 
     <div id="vibePopup" class="vibe-popup">
         <button id="closeVibePopup" class="close-vibe-btn">&times;</button>
@@ -1009,23 +1060,30 @@ reveals.forEach(el => observer.observe(el));
   });
 // --- FLOATING VIBE CHECK LOGIC ---
 const vibeFab = document.getElementById('vibeFab');
+const vibeTooltip = document.getElementById('vibeTooltip'); // <-- We added this!
 const vibePopup = document.getElementById('vibePopup');
 const closeVibePopup = document.getElementById('closeVibePopup');
 const vibeSubmitBtn = document.getElementById('vibeSubmitBtn');
 const moodInput = document.getElementById('moodInput');
 const vibeResponse = document.getElementById('vibeResponse');
 
-// Toggle the popup open
-vibeFab.addEventListener('click', () => {
-    vibePopup.classList.toggle('active');
-    if (vibePopup.classList.contains('active')) {
-        moodInput.focus(); // Automatically put the cursor in the box
-    }
+// Toggle the popup open when clicking the leaf OR the text bubble
+[vibeFab, vibeTooltip].forEach(element => {
+    element.addEventListener('click', () => {
+        vibePopup.classList.toggle('active');
+        if (vibePopup.classList.contains('active')) {
+            moodInput.focus(); 
+            vibeTooltip.style.opacity = '0'; // Hide the bubble when open
+        } else {
+            vibeTooltip.style.opacity = '1'; // Show it again when closed
+        }
+    });
 });
 
-// Close the popup
+// Close the popup with the X
 closeVibePopup.addEventListener('click', () => {
     vibePopup.classList.remove('active');
+    vibeTooltip.style.opacity = '1'; // Show the bubble again
 });
 
 // Your live Apps Script bridge

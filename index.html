@@ -553,21 +553,22 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
 }
 
 /* The Floating Leaf (No Background) */
+/* --- THE FLOATING LEAF (MINIMALIST & AESTHETIC) --- */
 .vibe-fab-icon {
   background: transparent;
   border: none;
-  font-size: 3.5rem; /* Makes the leaf larger */
+  font-size: 2.2rem; /* Clean, smaller size */
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
-  transition: transform 0.3s ease;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2)); /* Soft shadow on the leaf */
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Notice there is NO box-shadow or glow here for a clean look */
 }
 
 .vibe-fab-icon:hover {
-  transform: scale(1.15) rotate(-5deg); /* Grows and tilts slightly */
+  transform: scale(1.15) rotate(-8deg); /* A slightly more playful tilt on hover */
 }
 
 /* Gentle hovering animation for the text bubble */
@@ -577,19 +578,22 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
 }
 
 /* --- THE POPUP WINDOW --- */
+/* 1. The Main Aesthetic Box */
 .vibe-popup {
   position: fixed;
   bottom: 90px; 
   right: 30px;
   width: 380px;
   max-width: 90vw; 
-  max-height: 80vh; /* Prevents the box from growing taller than the screen */
-  overflow-y: auto; /* Adds a scrollbar if the text gets too long */
+  max-height: 80vh; 
+  overflow-y: auto; 
   background: #ffffff;
-  padding: 2.5rem 2rem 2rem 2rem; /* Extra padding at the top for the X */
-  border-radius: 20px;
+  padding: 2.5rem 2rem 2rem 2rem; 
   box-shadow: 0 10px 40px rgba(0,0,0,0.15);
   z-index: 999;
+  
+  /* THE MAGIC: Asymmetrical, organic leaf shape */
+  border-radius: 40px 12px 40px 12px; 
   
   /* Hidden state for animation */
   opacity: 0;
@@ -597,7 +601,6 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
   pointer-events: none; 
   transition: all 0.3s ease;
 }
-
 /* Active state for animation */
 .vibe-popup.active {
   opacity: 1;
@@ -637,37 +640,48 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
   margin-bottom: 1.5rem;
 }
 
+/* 2. The Creative Text Input Box */
 .vibe-popup textarea {
   width: 100%;
   min-height: 100px;
-  padding: 1rem;
-  border: 1px solid #EFE9D2;
-  border-radius: 12px;
+  padding: 1.2rem;
+  
+  /* THE MAGIC: A chat-bubble shape pointing down right */
+  border-radius: 20px 20px 8px 20px; 
+  
+  border: 1.5px solid #EFE9D2;
   font-family: inherit;
   resize: none;
   margin-bottom: 1rem;
   background-color: #FAFAFA;
+  box-shadow: inset 0 3px 6px rgba(0,0,0,0.02); /* Soft inner depth */
+  transition: all 0.3s ease;
 }
 
 .vibe-popup textarea:focus {
   outline: none;
   border-color: #D8BFFF;
-  box-shadow: 0 0 0 3px rgba(216, 191, 255, 0.2);
+  background-color: #ffffff;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.01), 0 0 0 3px rgba(216, 191, 255, 0.2);
 }
 
 .vibe-popup .btn {
   width: 100%;
 }
 
+/* 3. The Aesthetic AI Response Box */
 .vibe-response {
   margin-top: 1.5rem;
-  padding: 1rem;
+  padding: 1.2rem;
   background-color: #F3E5F5;
-  border-radius: 12px;
   color: var(--text-dark);
   font-style: italic;
   font-size: 0.95rem;
   line-height: 1.5;
+  
+  /* THE MAGIC: An inverted bubble shape pointing up left */
+  border-radius: 8px 20px 20px 20px; 
+  box-shadow: 0 4px 10px rgba(216, 191, 255, 0.2);
 }
 
 .hidden {

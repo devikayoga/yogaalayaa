@@ -56,24 +56,23 @@ nav {
 }
 .nav-logo span { color:var(--clay); }
 .studio-logo {
-  height: 85px; /* Increased size significantly (was 45px) */
+  height: 85px; /* Adjust this if the transparent version feels too big or small */
   width: auto;
   object-fit: contain;
   display: block;
-  border-radius: 16px; /* Rounds the harsh corners */
-  mix-blend-mode: multiply; /* The magic trick that blends the pink background into the cream navbar */
-  transition: transform 0.3s ease; /* Adds a smooth animation */
-}
-.footer-logo .studio-logo {
-  height: 55px; /* Makes it a tasteful, slightly smaller size for the footer */
-  mix-blend-mode: normal; /* Turns OFF the melt effect so it doesn't disappear in the dark */
-  border-radius: 12px; /* Keeps the modern rounded edges */
+  transition: transform 0.3s ease;
+  /* Notice we deleted the border-radius and mix-blend-mode! */
 }
 
-/* Optional: Adds a tiny little "lift" effect when someone hovers over the logo */
 .studio-logo:hover {
   transform: scale(1.05); 
 }
+
+.footer-logo .studio-logo {
+  height: 65px; /* Keeps the footer logo just slightly more compact */
+}
+
+
 .nav-book {
   font-family:'Jost',sans-serif; font-size:0.68rem; letter-spacing:0.2em;
   text-transform:uppercase; font-weight:500; text-decoration:none;
@@ -515,7 +514,7 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
 <nav>
   <div class="nav-top">
     <a href="index.html" class="nav-logo" style="text-decoration: none;">
-      <img src="pink.png" alt="Yogaaalayaa Logo" class="studio-logo">
+      <img src="pinktrans.png" alt="Yogaaalayaa Logo" class="studio-logo">
     </a>
     <a href="#contact" class="nav-book">Book Now</a>
   </div>
@@ -810,7 +809,7 @@ footer { background:var(--charcoal); color:var(--parchment); padding:4rem 4rem 2
   <div class="footer-top">
     <div>
       <div class="footer-logo">
-        <img src="pink.png" alt="Yogaaalayaa Logo" class="studio-logo">
+        <img src="pinktrans.png" alt="Yogaaalayaa Logo" class="studio-logo">
       </div>
       <p class="footer-tagline">Calm body. Loud mind. We fix both.</p>
     </div>
